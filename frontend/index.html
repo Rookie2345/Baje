@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BAJE AI — बाजेसँग गफ गरौँ!</title>
+  <meta name="description" content="BAJE AI - Your Digital Nepali Hajurbuwa. Chat in Nepali, Romanized or English!" />
+  <meta name="theme-color" content="#0a0f1e" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="BAJE AI — बाजेसँग गफ गरौँ!" />
+  <meta property="og:description" content="Chat with a funny, wise Nepali grandfather AI!" />
+  <meta property="og:type" content="website" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+
+  <!-- ============ NAVBAR ============ -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-brand">
+      <span class="brand-icon">🏔️</span>
+      <span class="brand-name">BAJE AI</span>
+    </div>
+    <div class="nav-tagline">बाजेसँग गफ गरौँ!</div>
+    <div class="nav-status">
+      <span class="status-dot" id="status-dot"></span>
+      <span class="status-text" id="status-text">बाजे तयार</span>
+    </div>
+  </nav>
+
+  <!-- ============ HERO SECTION ============ -->
+  <section id="hero" class="hero-section">
+    <div class="hero-bg-particles" id="hero-particles"></div>
+    <div class="hero-content">
+
+      <!-- Left: Text -->
+      <div class="hero-text" data-animate="slide-left">
+        <div class="hero-badge">
+          <span>🇳🇵</span>
+          <span>Digital Nepal</span>
+        </div>
+        <h1 class="hero-title">BAJE AI</h1>
+        <p class="hero-tagline">बाजेसँग गफ गरौँ!</p>
+        <p class="hero-subtitle">
+          तिम्रो डिजिटल नेपाली हजुरबुवासँग गफ गर्नुस् —<br/>
+          नेपाली, रोमनाइज्ड वा अंग्रेजीमा!
+        </p>
+        <button class="btn-primary" onclick="scrollToChat()">
+          <i class="fas fa-comments"></i>
+          <span>गफ सुरु गरौँ!</span>
+        </button>
+        <div class="hero-features">
+          <span class="feature-chip"><i class="fas fa-laugh-beam"></i> मजेदार</span>
+          <span class="feature-chip"><i class="fas fa-heart"></i> माया गर्ने</span>
+          <span class="feature-chip"><i class="fas fa-brain"></i> बुद्धिमान</span>
+          <span class="feature-chip"><i class="fas fa-flag"></i> नेपाली</span>
+        </div>
+      </div>
+
+      <!-- Right: Character -->
+      <div class="hero-character" data-animate="slide-right">
+        <div class="character-glow-ring"></div>
+        <div id="baje-canvas-container">
+          <canvas id="baje-canvas"></canvas>
+          <div class="character-fallback" id="character-fallback">
+            <div class="fallback-baje">
+              <div class="fallback-topi">🎩</div>
+              <div class="fallback-face">👴</div>
+            </div>
+          </div>
+        </div>
+        <div class="character-speech-bubble" id="hero-speech">
+          <div class="bubble-arrow"></div>
+          <p id="hero-speech-text">"ए बाबु! स्वागत छ! के छ खबर?"</p>
+        </div>
+        <div class="character-state-badge" id="state-badge">
+          <span class="state-icon" id="state-icon">😊</span>
+          <span class="state-text" id="state-text">खुसी छ</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-scroll-hint" onclick="scrollToChat()">
+      <span>तल स्क्रोल गर्नुस्</span>
+      <i class="fas fa-chevron-down bounce"></i>
+    </div>
+  </section>
+
+  <!-- ============ CHAT SECTION ============ -->
+  <section id="chat" class="chat-section">
+    <div class="section-label">
+      <i class="fas fa-comments"></i>
+      <span>बाजेसँग गफ</span>
+    </div>
+
+    <div class="chat-container">
+
+      <!-- LEFT: Character Sidebar -->
+      <aside class="character-panel">
+        <div class="baje-profile">
+          <div class="baje-avatar-ring">
+            <div class="baje-avatar-emoji">👴</div>
+          </div>
+          <h3>BAJE</h3>
+          <p>तिम्रो डिजिटल हजुरबुवा</p>
+          <div class="baje-mood" id="baje-mood">
+            <span class="mood-icon" id="mood-icon">😊</span>
+            <span class="mood-text" id="mood-text">खुसी</span>
+          </div>
+        </div>
+
+        <div class="quick-starters">
+          <h4><i class="fas fa-bolt"></i> कुरा सुरु गरौँ</h4>
+          <div class="starters-grid">
+            <button class="starter-btn" data-message="बाजे, एउटा जोक सुनाउनुस् न!">
+              <span class="starter-icon">😂</span>
+              <span>जोक सुन्ने</span>
+            </button>
+            <button class="starter-btn" data-message="बाजे, मलाई अलि सल्लाह चाहियो।">
+              <span class="starter-icon">❤️</span>
+              <span>सल्लाह लिने</span>
+            </button>
+            <button class="starter-btn" data-message="बाजे, पढाइको बारेमा कुरा गरौँ।">
+              <span class="starter-icon">📚</span>
+              <span>पढाइको कुरा</span>
+            </button>
+            <button class="starter-btn" data-message="नेपाली संस्कृतिको कुरा गरौँ बाजे।">
+              <span class="starter-icon">🇳🇵</span>
+              <span>नेपाली संस्कृति</span>
+            </button>
+            <button class="starter-btn" data-message="बाजे, एउटा प्रश्न छ मेरो।">
+              <span class="starter-icon">🤔</span>
+              <span>प्रश्न सोध्ने</span>
+            </button>
+            <button class="starter-btn" data-message="बाजे, कुनै रमाइलो कथा सुनाउनुस् न।">
+              <span class="starter-icon">📖</span>
+              <span>कथा सुन्ने</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="baje-facts">
+          <div class="fact-item">
+            <i class="fas fa-birthday-cake"></i>
+            <span>उमेर: ७५ वर्ष</span>
+          </div>
+          <div class="fact-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>नेपाल 🇳🇵</span>
+          </div>
+          <div class="fact-item">
+            <i class="fas fa-language"></i>
+            <span>नेपाली / English</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- RIGHT: Chat Panel -->
+      <main class="chat-panel">
+        <div class="chat-header">
+          <div class="chat-header-left">
+            <div class="chat-avatar-small">👴</div>
+            <div class="chat-header-info">
+              <h3>BAJE AI</h3>
+              <div class="chat-online-status">
+                <span class="online-dot"></span>
+                <span id="chat-status-text">तयार छ</span>
+              </div>
+            </div>
+          </div>
+          <button class="btn-clear" id="clear-chat-btn" title="कुराकानी सफा गर्नुस्">
+            <i class="fas fa-trash-alt"></i>
+            <span>Clear</span>
+          </button>
+        </div>
+
+        <div class="messages-container" id="messages-container" role="log" aria-live="polite">
+          <!-- Welcome message -->
+          <div class="message baje-message visible" id="welcome-message">
+            <div class="message-avatar">👴</div>
+            <div class="message-body">
+              <div class="message-bubble">
+                <p>ए बाबु! स्वागत छ! म हुँ तिम्रो डिजिटल बाजे — गफ गर्न, हँसाउन र अलिकति ज्ञान बाँड्न सधैँ तयार! 😄</p>
+                <p>नेपाली, रोमनाइज्ड वा अंग्रेजीमा जे मन लाग्छ लेख्नुस् — बाजेले बुझ्छ!</p>
+              </div>
+              <span class="message-time">अहिले</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Typing indicator -->
+        <div class="typing-indicator" id="typing-indicator" style="display:none">
+          <div class="message-avatar">👴</div>
+          <div class="typing-bubble">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+          <span class="typing-label">बाजे सोच्दैछ...</span>
+        </div>
+
+        <!-- Input area -->
+        <div class="chat-input-area">
+          <div class="input-wrapper">
+            <textarea
+              id="chat-input"
+              placeholder="यहाँ लेख्नुस्... (Enter = पठाउनुस्, Shift+Enter = नयाँ लाइन)"
+              rows="1"
+              maxlength="1000"
+              aria-label="Message input"
+            ></textarea>
+            <div class="input-footer">
+              <span class="char-count" id="char-count">0/1000</span>
+              <button class="btn-send" id="send-btn" aria-label="Send message">
+                <i class="fas fa-paper-plane"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT SECTION ============ -->
+  <section id="about" class="about-section">
+    <div class="about-container">
+      <div class="about-header" data-animate="fade-up">
+        <h2>बाजेलाई चिनौँ</h2>
+        <p>तिम्रो डिजिटल हजुरबुवाको बारेमा थाहा पाउनुस्</p>
+      </div>
+
+      <div class="about-card" data-animate="fade-up">
+        <div class="about-quote-avatar">👴</div>
+        <blockquote class="about-quote">
+          "नमस्कार बाबु! म हुँ तिम्रो डिजिटल बाजे। गफ गर्न, हँसाउन र अलिकति ज्ञान बाँड्न सधैँ तयार! नेपाली होस् वा अंग्रेजी — बाजे सुन्छ!"
+        </blockquote>
+        <p class="about-quote-attr">— BAJE, तिम्रो Digital हजुरबुवा</p>
+      </div>
+
+      <div class="traits-grid">
+        <div class="trait-card" data-animate="fade-up">
+          <div class="trait-icon-wrap">😄</div>
+          <h4>मजेदार</h4>
+          <p>जोक, हाँसो र रमाइलो कुरा सधैँ तयार। बाजेसँग बोर हुँदैन!</p>
+        </div>
+        <div class="trait-card" data-animate="fade-up">
+          <div class="trait-icon-wrap">🧠</div>
+          <h4>बुद्धिमान</h4>
+          <p>७५ वर्षको अनुभव! जिन्दगी, पढाइ, प्रेम — सबैको सल्लाह दिन्छ।</p>
+        </div>
+        <div class="trait-card" data-animate="fade-up">
+          <div class="trait-icon-wrap">🇳🇵</div>
+          <h4>नेपाली</h4>
+          <p>नेपाली संस्कृति, परम्परा र खानामा अपार ज्ञान र गर्व।</p>
+        </div>
+        <div class="trait-card" data-animate="fade-up">
+          <div class="trait-icon-wrap">❤️</div>
+          <h4>माया गर्ने</h4>
+          <p>नाति नातिनीलाई सधैँ माया! कठिन समयमा साथ दिन्छ।</p>
+        </div>
+        <div class="trait-card" data-animate="fade-up">
+          <div class="trait-icon-wrap">🗣️</div>
+          <h4>बहुभाषी</h4>
+          <p>नेपाली, रोमनाइज्ड र अंग्रेजी — तिमीले लेखेको भाषामा जवाफ दिन्छ।</p>
+        </div>
+        <div class="trait-card" data-animate="fade-up">
+          <div class="trait-icon-wrap">🤫</div>
+          <h4>व्यङ्ग्यात्मक</h4>
+          <p>हल्का सरकारी व्यङ्ग्य! बिग्रिन्दैन — हाँस्दैछौ भने राम्रो!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <span class="footer-mountain">🏔️</span>
+        <h3>BAJE AI</h3>
+        <p>बाजेसँग गफ गरौँ!</p>
+      </div>
+      <div class="footer-divider"></div>
+      <p class="footer-made">Made with <span class="heart">❤️</span> in Nepal 🇳🇵</p>
+      <p class="footer-copy">© 2024 BAJE AI · Rookie2345</p>
+      <div class="footer-links">
+        <a href="#hero">Home</a>
+        <a href="#chat">Chat</a>
+        <a href="#about">About</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Error Toast -->
+  <div id="toast-container"></div>
+
+  <!-- Scripts (order matters) -->
+  <script src="js/effects.js"></script>
+  <script src="js/character.js"></script>
+  <script src="js/chat.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

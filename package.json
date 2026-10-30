@@ -1,0 +1,27 @@
+{
+  "name": "baje-ai",
+  "version": "1.0.0",
+  "description": "BAJE AI - Your Digital Nepali Hajurbuwa | बाजेसँग गफ गरौँ!",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
+    "node-fetch": "^2.7.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": ["nepal", "nepali", "ai", "chatbot", "hajurbuwa", "baje"],
+  "author": "Rookie2345",
+  "license": "MIT"
+}
